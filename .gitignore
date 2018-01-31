@@ -262,3 +262,5 @@ __pycache__/
 
 ###### mac version: C++ on command line
 *.out
+.DS_Store
+.vscode/
