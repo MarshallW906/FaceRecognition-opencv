@@ -8,10 +8,6 @@
 using namespace cv;
 using namespace std;
 
-#ifndef DEBUG
-#define DEBUG true
-#endif
-
 void test() {
     cv::Mat ttt;
     ttt = cv::imread("./att_faces/s1/1.pgm", cv::IMREAD_GRAYSCALE);
@@ -27,5 +23,6 @@ void test() {
 int main() {
     FaceRecognitionPCA fr;
     fr.init();
-    fr.SetKandStartTest(75);
+    fr.SetDebugEnable(false);
+    fr.SetKandStartTest(50);
 }
