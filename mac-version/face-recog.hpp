@@ -11,18 +11,19 @@ class FaceRecognitionPCA {
     FaceRecognitionPCA() = default;
     ~FaceRecognitionPCA() = default;
     void init();
-    void SetK(int k) { k_ = k; }
-    int GetK() { return k_; }
     void SetDebugEnable(bool d) { DEBUG_ = d; }
-    void SetKandStartTest(int);
+    int SetKandStartTest(int);
 
    protected:
     void LoadTrainingImg();
     void LoadTestImg();
     void CalcReuseableParams();
     void CalcParams();
-    void TestRecognition();
+    int TestRecognition();
     bool DEBUG_;
+
+    void SetK(int k) { k_ = k; }
+    int GetK() { return k_; }
 
    private:
     // face_training_images_ : stored 40*7 training images as row-vectors
