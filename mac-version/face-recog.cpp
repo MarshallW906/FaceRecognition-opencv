@@ -26,7 +26,7 @@ void FaceRecognitionPCA::LoadTrainingImg() {
     cout << "[INFO] Load Training Images..." << endl;
     cv::Mat trainingFaces;
     int success_count = 0;
-    // 1~7 as training images, 8~9 as test images
+    // 1~7 as training images, 8~10 as test images
     string filePrefix = "./att_faces/s";
     for (int i = 1; i <= 40; i++) {
         string outer_number = to_string(i);
@@ -46,7 +46,7 @@ void FaceRecognitionPCA::LoadTrainingImg() {
         }
     }
     if (success_count == 280) {
-        cout << "[INFO] Load training images successfully." << endl;
+        cout << "[INFO] Load Training Images successfully." << endl;
         if (DEBUG) {
             cout << "[DEBUG] TrainingFaces Mat size: " << trainingFaces.size()
                  << endl;
