@@ -17,6 +17,7 @@ class FaceRecognitionPCA {
    protected:
     void LoadTrainingImg();
     void LoadTestImg();
+    void CalcReuseableParams();
     void CalcParams();
     void TestRecognition();
 
@@ -41,5 +42,8 @@ class FaceRecognitionPCA {
 
     int k_, N_, d_;
 
+    // Test Images
+    int P_;
     std::vector<cv::Mat> test_images_;
+    std::vector<cv::Mat> zp_avg_test_images_;
 };

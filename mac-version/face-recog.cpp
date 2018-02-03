@@ -15,9 +15,11 @@ void FaceRecognitionPCA::init() {
     cout << "[INFO] PCA init..." << endl << endl;
     N_ = 280;
     d_ = 10304;
+    P_ = 120;
     k_ = 75;
     LoadTrainingImg();
     LoadTestImg();
+    CalcReuseableParams();
     CalcParams();
     cout << "[COMPLETED] PCA init completed." << endl << endl;
 }
@@ -61,9 +63,8 @@ void FaceRecognitionPCA::LoadTrainingImg() {
     cout << "[COMPLETED] Load Training Images Completed." << endl << endl;
 }
 
-void FaceRecognitionPCA::CalcParams() {
-    cout << "[INFO] Calc Necessary Params..." << endl;
-
+void FaceRecognitionPCA::CalcReuseableParams() {
+    cout << "[INFO] Calc Reuseable Params..." << endl;
     // x_avg_
     cout << "[INFO] Calc x_avg_..." << endl;
     Mat tmp_x_avg;
@@ -91,6 +92,19 @@ void FaceRecognitionPCA::CalcParams() {
     }
     x_avg_i_ = std::move(tmp_x_avg_i);
     cout << "[COMPLETED] Calc x_avg_i_ Completed." << endl;
+
+    // zp_avg
+    cout << "[INFO] Calc zp_avg..." << endl;
+    for (int i = 0; i < P_; i++) {
+        zp_avg_test_images_.push_back((test_images_[i] - x_avg_).t());
+    }
+    cout << "[COMPLETED] Calc zp_avg Completed." << endl;
+
+    cout << "[INFO] Calc Reuseable Params Completed." << endl << endl;
+}
+
+void FaceRecognitionPCA::CalcParams() {
+    cout << "[INFO] Calc Necessary Params..." << endl;
 
     // L_: the equivalent covariance matrix of C
     cout << "[INFO] Calc L_ matrix..." << endl;
@@ -184,3 +198,5 @@ void FaceRecognitionPCA::LoadTestImg() {
     Xt_face_training_images_ = std::move(testFaces);
     cout << "[COMPLETED] Load Test Images Completed." << endl << endl;
 }
+
+void FaceRecognitionPCA::TestRecognition() {}
