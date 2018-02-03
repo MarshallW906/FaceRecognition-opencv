@@ -62,7 +62,9 @@ void FaceRecognitionPCA::LoadTrainingImg() {
 
 void FaceRecognitionPCA::CalcParams() {
     cout << "[INFO] Calc Necessary Params..." << endl;
+
     // x_avg_
+    cout << "[INFO] Calc x_avg_..." << endl;
     Mat tmp_x_avg;
     cv::reduce(Xt_face_training_images_, tmp_x_avg, 0,
                cv::ReduceTypes::REDUCE_AVG);
@@ -73,8 +75,10 @@ void FaceRecognitionPCA::CalcParams() {
         // waitKey(0);
     }
     x_avg_ = std::move(tmp_x_avg);
+    cout << "[COMPLETED] Calc x_avg Completed." << endl;
 
     // x_avg_i_
+    cout << "[INFO] Calc x_avg_i_..." << endl;
     Mat tmp_x_avg_i;
     for (int i = 0; i < N_; i++) {
         Mat tmprow = Xt_face_training_images_.row(0) - x_avg_;
@@ -85,15 +89,19 @@ void FaceRecognitionPCA::CalcParams() {
         // waitKey(0);
     }
     x_avg_i_ = std::move(tmp_x_avg_i);
+    cout << "[COMPLETED] Calc x_avg_i_ Completed." << endl;
 
     // L_: the equivalent covariance matrix of C
+    cout << "[INFO] Calc L_ matrix..." << endl;
     Mat tmp_L = Xt_face_training_images_ * Xt_face_training_images_.t();
     if (DEBUG) {
         cout << "[DEBUG] L_ matrix size: " << tmp_L.size() << endl;
     }
     L_ = std::move(tmp_L);
+    cout << "[COMPLETED] Calc L_ matrix Completed." << endl;
 
     // L_'s eigenVectors & eigenValues
+    cout << "[INFO] Calc L_ eigenValues & eigenVectors..." << endl;
     cv::eigen(L_, Tao_L_eigenValues_, W_L_eigenVectors_);
     if (DEBUG) {
         cout << "[DEBUG] L_ eigenVectors size: " << W_L_eigenVectors_.size()
@@ -101,8 +109,11 @@ void FaceRecognitionPCA::CalcParams() {
         cout << "[DEBUG] L_ eigenValues size: " << Tao_L_eigenValues_.size()
              << endl;
     }
+    cout << "[COMPLETED] Calc L_'s eigenValues & eigenVectors Completed."
+         << endl;
 
     // V_kt_;
+    cout << "[INFO] Calc V_kt_..." << endl;
     Mat tmp_Vt = (Xt_face_training_images_.t() * W_L_eigenVectors_).t();
     // cut & normalize
     Mat tmp_Vkt_cutk = tmp_Vt.rowRange(0, k_);
@@ -124,11 +135,13 @@ void FaceRecognitionPCA::CalcParams() {
     }
 
     V_kt_ = std::move(tmp_V_kt);
+    cout << "[COMPLETED] Calc V_kt_ Completed." << endl;
 
     // alpha_ik_
+    cout << "[INFO] Calc alpha_ik_" << endl;
     Mat tmp_alpha_ik = V_kt_ * x_avg_i_.t();
-    cout << tmp_alpha_ik.size() << endl;
     alpha_ik_ = std::move(tmp_alpha_ik);
+    cout << "[COMPLETED] Calc alpha_ik_ Completed." << endl;
 
     cout << "[COMPLETED] Calc Necessary Params Completed." << endl << endl;
 }
