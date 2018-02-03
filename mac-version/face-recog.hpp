@@ -13,6 +13,8 @@ class FaceRecognitionPCA {
     void init();
     void SetK(int k) { k_ = k; }
     int GetK() { return k_; }
+    void SetDebugEnable(bool d) { DEBUG_ = d; }
+    void SetKandStartTest(int);
 
    protected:
     void LoadTrainingImg();
@@ -20,6 +22,7 @@ class FaceRecognitionPCA {
     void CalcReuseableParams();
     void CalcParams();
     void TestRecognition();
+    bool DEBUG_;
 
    private:
     // face_training_images_ : stored 40*7 training images as row-vectors
@@ -37,13 +40,13 @@ class FaceRecognitionPCA {
     cv::Mat Tao_L_eigenValues_;
     // V_k_: k eigenVectors corresponding to the largest k eigenValues
     cv::Mat V_kt_;
-    // alpha_ik_
-    cv::Mat alpha_ik_;
+    // alpha_ik_t_: alpha_ik's transpose
+    cv::Mat alpha_ik_t_;
 
     int k_, N_, d_;
 
     // Test Images
     int P_;
-    std::vector<cv::Mat> test_images_;
-    std::vector<cv::Mat> zp_avg_test_images_;
+    cv::Mat test_images_;
+    cv::Mat zp_avg_test_images_;
 };
