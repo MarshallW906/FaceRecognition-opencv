@@ -1,7 +1,7 @@
-compile:
+face_recog.out:
 	g++ main.cpp -o face_recog.out -std=c++14 `pkg-config opencv --cflags --libs`
 
-run: compile
+run: face_recog.out 
 	./face_recog.out
 
 clean:
