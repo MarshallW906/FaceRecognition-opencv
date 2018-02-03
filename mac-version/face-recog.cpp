@@ -17,6 +17,7 @@ void FaceRecognitionPCA::init() {
     d_ = 10304;
     k_ = 75;
     LoadTrainingImg();
+    LoadTestImg();
     CalcParams();
     cout << "[COMPLETED] PCA init completed." << endl << endl;
 }
@@ -144,4 +145,42 @@ void FaceRecognitionPCA::CalcParams() {
     cout << "[COMPLETED] Calc alpha_ik_ Completed." << endl;
 
     cout << "[COMPLETED] Calc Necessary Params Completed." << endl << endl;
+}
+
+void FaceRecognitionPCA::LoadTestImg() {
+    cout << "[INFO] Load Test Images..." << endl;
+    cv::Mat testFaces;
+    int success_count = 0;
+    // 1~7 as training images, 8~10 as test images
+    string filePrefix = "./att_faces/s";
+    for (int i = 1; i <= 40; i++) {
+        string outer_number = to_string(i);
+        string tmp = filePrefix + outer_number + '/';
+        for (int j = 8; j <= 10; j++) {
+            ostringstream ostr;
+            ostr << tmp << j << ".pgm";
+            string filename = ostr.str();
+            Mat tmpMat = cv::imread(filename, IMREAD_GRAYSCALE);
+            if (tmpMat.empty()) {
+                // Check if the image is loaded successfully
+                cout << "[ERROR] Load " << filename << "failed" << endl;
+            } else {
+                success_count++;
+            }
+            tmpMat = tmpMat.reshape(1, 1);
+            testFaces.push_back(std::move(tmpMat));
+        }
+    }
+    if (success_count == 120) {
+        cout << "[INFO] Load Test Images successfully." << endl;
+        if (DEBUG) {
+            cout << "[DEBUG] TestFaces Mat size: " << testFaces.size() << endl;
+        }
+    } else {
+        cout << "[ERROR] Not all test images are successfully loaded." << endl;
+        return;
+    }
+    testFaces.convertTo(testFaces, CV_64FC1, 1.0 / 255);
+    Xt_face_training_images_ = std::move(testFaces);
+    cout << "[COMPLETED] Load Test Images Completed." << endl << endl;
 }

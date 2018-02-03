@@ -16,7 +16,9 @@ class FaceRecognitionPCA {
 
    protected:
     void LoadTrainingImg();
+    void LoadTestImg();
     void CalcParams();
+    void TestRecognition();
 
    private:
     // face_training_images_ : stored 40*7 training images as row-vectors
@@ -38,4 +40,6 @@ class FaceRecognitionPCA {
     cv::Mat alpha_ik_;
 
     int k_, N_, d_;
+
+    std::vector<cv::Mat> test_images_;
 };
