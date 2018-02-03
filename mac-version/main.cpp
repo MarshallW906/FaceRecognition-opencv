@@ -27,4 +27,5 @@ void test() {
 int main() {
     FaceRecognitionPCA fr;
     fr.init();
+    fr.SetKandStartTest(75);
 }
