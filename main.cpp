@@ -27,7 +27,7 @@ int main() {
     int best_k = 50;
     int max_correct_count = 0;
     std::map<int, std::vector<int>> k_correct_rate;
-    for (int k = 95; k <= 100; k++) {
+    for (int k = 50; k <= 100; k++) {
         cout << "Current k: " << k << endl;
         int cur_correct_count = fr.SetKandStartTest(k);
         // for statistic
