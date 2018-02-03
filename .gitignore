@@ -266,6 +266,4 @@ __pycache__/
 .vscode/
 # att_faces
 att_faces.zip
-att_faces/
 *.png
-*.pgm
